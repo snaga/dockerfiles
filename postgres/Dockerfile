@@ -7,6 +7,11 @@ RUN yum install -y postgresql10 postgresql10-contrib postgresql10-devel postgres
 
 RUN yum install -y pg_partman10
 
+ADD pg_hba.conf /var/lib/pgsql/10/data
+
+RUN chown postgres:postgres /var/lib/pgsql/10/data/pg_hba.conf && \
+    chmod 600 /var/lib/pgsql/10/data/pg_hba.conf
+
 ADD build_madlib.sh /
 
 CMD ["su", "-c", "/usr/pgsql-10/bin/postgres -D /var/lib/pgsql/10/data -i", "postgres"]
